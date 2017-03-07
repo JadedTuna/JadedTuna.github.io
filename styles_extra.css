@@ -1,0 +1,8 @@
+@font-face {
+    font: Monaco;
+    src: url(https://github.com/todylu/monaco.ttf/raw/master/monaco.ttf);
+}
+
+code {
+    font-family: Monaco;
+}
