@@ -4,12 +4,11 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
-
-### More Information
-
-A place to include any other types of information that you'd like to include about yourself.
+My name is Victor, I am 16 and I enjoy programming. I mostly write lower-level code or attempt reverse-engineering/patching of programs. Some of the more interesting projects of mine are [Xgui][Xgui], a C++ GUI library that depends only on Xlib and some extensions, [fdos][fdos], an attempt at an OS written in Assembly and [apple-dictionary][apple-dictionary], tools used for reading Apple Dictionaries, originally by `josephg`, that I've modified to get cleaner data.
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[vikkindhart@gmail.com](mailto:vikkindhart@gmail.com)
+[Xgui]: https://github.com/Vik2015/Xgui
+[fdos]: https://github.com/Vik2015/fdos
+[apple-dictionary]: https://github.com/Vik2015/apple-dictionary
