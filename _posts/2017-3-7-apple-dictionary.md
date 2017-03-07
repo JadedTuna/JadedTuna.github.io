@@ -5,7 +5,8 @@ tag: apple-dictionary reverse-engineering trie
 ---
 This blog post is an update to my adventures on attempting to read data from Apple Dictionaries. I was finally able to find the function responsible for reading index values from the index file. The bad news is the code is pretty bad looking (pseudocode from IDA Pro) and it doesn't have any real variable/function names so one ends up having to guess from the context.
 
-The file I was working with is `DictionaryServices`, found in `/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/DictionaryServices.framework`. It is a shared library that includes a whole lot of functions and data structures, but only three functions can be used by the programmer - `DCSGetTermRangeInString`, `DCSCopyTextDefinition` and `HIDictionaryWindowShow`, which allow you to either get the definition for a specific word or pop up dictionary window. I started working with `DCSCopyTextDefinition`, which apparently searches for query string in all the active dictionaries. It calls an undocumented function of `DCSDictionary`, `searchByString`, which accepts four arguments - some dictionary structure, the query string and two magic numbers. `searchByString` disappoints as it calls some internal function that does not even have a name - probably a function pointer. Here is the pseudocode:
+The file I was working with is `DictionaryServices`, found in 
+<pre><code>/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/DictionaryServices.framework</code></pre> It is a shared library that includes a whole lot of functions and data structures, but only three functions can be used by the programmer - `DCSGetTermRangeInString`, `DCSCopyTextDefinition` and `HIDictionaryWindowShow`, which allow you to either get the definition for a specific word or pop up dictionary window. I started working with `DCSCopyTextDefinition`, which apparently searches for query string in all the active dictionaries. It calls an undocumented function of `DCSDictionary`, `searchByString`, which accepts four arguments - some dictionary structure, the query string and two magic numbers. `searchByString` disappoints as it calls some internal function that does not even have a name - probably a function pointer. Here is the pseudocode:
 <pre><code>
 ...
 if (DCSDictionary::createDictionaryObj(this, stringToSearch))
@@ -15,7 +16,7 @@ if (DCSDictionary::createDictionaryObj(this, stringToSearch))
 }
 ...
 return result;
-</pre></code>
+</code></pre>
 Marvelous.
 
 I decided to explore `DCSDictionary` and `DCSEvironment` instead and learned quite a lot of stuff about them. `DCSEnvironment` manages loading dictionaries, stores active dictionaries, etc. and store metadata for them, such as paths. While I did learn a lot of stuff about how they are managed, I didn't find the code used for loading stuff from the dictionary until later. Apparently there are several ways to access dictionary data, depending on it's type. Thus `Body.data` is accessed using `HeapAccessMethod`, `KeyData.index` and `KeyData.data` using `TrieAccessMethod`. A big thanks here to `josephg`, since his research saved me from trouble of trying to guess the data type in those index files.
