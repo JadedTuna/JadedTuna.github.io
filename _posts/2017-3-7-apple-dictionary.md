@@ -15,7 +15,7 @@ if (DCSDictionary::createDictionaryObj(this, stringToSearch))
 }
 ...
 return result;
-</pre><code>
+</pre></code>
 Marvelous.
 
 I decided to explore `DCSDictionary` and `DCSEvironment` instead and learned quite a lot of stuff about them. `DCSEnvironment` manages loading dictionaries, stores active dictionaries, etc. and store metadata for them, such as paths. While I did learn a lot of stuff about how they are managed, I didn't find the code used for loading stuff from the dictionary until later. Apparently there are several ways to access dictionary data, depending on it's type. Thus `Body.data` is accessed using `HeapAccessMethod`, `KeyData.index` and `KeyData.data` using `TrieAccessMethod`. A big thanks here to `josephg`, since his research saved me from trouble of trying to guess the data type in those index files.
@@ -23,6 +23,6 @@ I decided to explore `DCSDictionary` and `DCSEvironment` instead and learned qui
 Alright, so we know which classes manage the data, should be easy now! But that's where the problems start. As aforementioned, the code is really garbled, there are almost no normal functions calls, and lots, LOTS of pointers. Pseudocode for the function responsible for reading Apple Tries is >500 lines long, with over 100 variables used throughout the file. I might attempt to tidy it up a bit, but I doubt I can understand it by myself.
 
 <h2>Some notes</h2>
-If anyone is interested, I can share my notes on several classes - mostly my guesses of which variables are located at specific addresses and some info of what some functions do. If anyone has any info on how Apple Tries are stored in the file and how the reading algorithm works, I'd really appreciate the help.
+If anyone is interested, I can share some more of my notes on several classes - mostly my guesses of which variables are located at specific addresses and some info of what some functions do. If anyone has any info on how Apple Tries are stored in the file and how the reading algorithm works, I'd really appreciate the help.
 
 This library uses a lot of `CF` classes, especially `CFURL`s. They are apparently used to represent locations, both on the HDD and on the Internet. The main classes of interest are `DCSDictionary`, `DCSEnvironment`, `DCSDictionaryManager`, `Heap/TrieAccessContext`, `IDXAccessMethodManager` and `IDXBuiltInAccessMethod<Heap/TrieAccessContext>`. The latter two seem to be the ones processing different types of data - index (`TrieAccessContext`) and actual dictionary data (`HeapAccessData`). The cache file is located in `$HOME/Library/Caches/com.apple.DictionaryServices/DictionaryCache.plist`. The dictionaries themselves were located in `/Library/Dictionaries` on my machine. The main files of interest there are `Body.data`, `Key` and `Key`. One can also take a look at `Info.plist`, as it provides a lot of information about data stored in these files, as well as the `AccessMethods` used to access them. And to anyone looking for these dictionaries, they can be found online fairy easily. As for the library itself, I can share it if anyone needs it.
