@@ -10,5 +10,5 @@ My name is Victor, I am 16 and I enjoy programming. I mostly write lower-level c
 
 [vikkindhart@gmail.com](mailto:vikkindhart@gmail.com)
 [Xgui]: https://github.com/Vik2015/Xgui
-[fdos]: https://github.com/Vik2015/fdos
+[fdos]: (https://github.com/Vik2015/fdos)
 [apple-dictionary]: https://github.com/Vik2015/apple-dictionary
