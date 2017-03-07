@@ -8,7 +8,7 @@ name: Victor Kindhart
 # Short bio or description (displayed in the header)
 description: Programmer who enjoys reverse engineering, low-level programming and petting cats
 
-
+theme: jekyll-theme-midnight
 #
 # Flags below are optional
 #
